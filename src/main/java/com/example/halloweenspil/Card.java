@@ -1,5 +1,6 @@
 package com.example.halloweenspil;
 
+import javafx.animation.Interpolator;
 import javafx.animation.ScaleTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,36 +19,33 @@ public class Card extends ImageView {
     private Image back;
     private boolean fs;
 
+
     public Card(int nr ,int x, int y, Mememorygame m) {
         id = nr;
         String filnavn = "b" + id + ".png";
         String filename = "bagside.png";
         front = new Image(getClass().getResource(filnavn).toString());
         back = new Image(getClass().getResource(filename).toString());
-        setImage(front);
+        setImage(front); //ændre setImage til back og fs til false hvis det skal vændes om
         fs = true;
         setX(x*80);
         setY(y*80);
         mg = m;
 
-
-
-
-        // Opret skaleind-transition
         scaleInTransition = new ScaleTransition(Duration.seconds(0.5), this);
         scaleInTransition.setFromX(0);
-        scaleInTransition.setFromY(0);
         scaleInTransition.setToX(1);
-        scaleInTransition.setToY(1);
+        scaleInTransition.setInterpolator(Interpolator.EASE_BOTH);
 
-        // Opret skaleud-transition
+
         scaleOutTransition = new ScaleTransition(Duration.seconds(0.5), this);
         scaleOutTransition.setFromX(1);
-        scaleOutTransition.setFromY(1);
         scaleOutTransition.setToX(0);
-        scaleOutTransition.setToY(0);
+        scaleOutTransition.setInterpolator(Interpolator.EASE_BOTH);
 
     }
+
+
 
     public void flip() {
         System.out.println("brik " + getX() + "," + getY());
@@ -55,10 +53,12 @@ public class Card extends ImageView {
         if(fs){
             setImage(back);
             fs = false;
+            scaleInTransition.play();
         }
         else{
             setImage(front);
             fs = true;
+            scaleInTransition.play();
         }
 
     }
