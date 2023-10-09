@@ -26,7 +26,7 @@ public class Card extends ImageView {
         String filename = "bagside.png";
         front = new Image(getClass().getResource(filnavn).toString());
         back = new Image(getClass().getResource(filename).toString());
-        setImage(front); //ændre setImage til back og fs til false hvis det skal vændes om
+        setImage(front); //ændre setImage til back og fs til false hvis det skal vændes om :)
         fs = true;
         setX(x*80);
         setY(y*80);
