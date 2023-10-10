@@ -2,6 +2,7 @@ package com.example.halloweenspil;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -44,6 +45,9 @@ public class Mememorygame extends Application {
                     cards[i][j].addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
                 }
             }
+
+
+
     }
 
     public static void main(String[] args) {
