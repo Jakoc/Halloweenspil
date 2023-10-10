@@ -13,7 +13,7 @@ public class Card extends ImageView {
     private ScaleTransition scaleOutTransition;
 
     private Mememorygame mg;
-    private int id;
+    private int cardId;
 
     private Image front;
     private Image back;
@@ -24,18 +24,17 @@ public class Card extends ImageView {
 
 
     public Card(int nr ,int x, int y, Mememorygame m) {
-        id = nr;
-        String filnavn = "b" + id + ".png";
+        String filnavn = "b" + nr + ".png";
         String filename = "bagside.png";
-
+        //giver forsiden og bagsiden navn
         this.front = new Image(getClass().getResource(filnavn).toString());
         this.back = new Image(getClass().getResource(filename).toString());
         setImage(back); //ændre setImage til back og fs til false hvis det skal vændes om :)
         fs = false;
-        setX(x*100);
-        setY(y*100);
+        setX(x*80);
+        setY(y*80);
         mg = m;
-
+        //vende effekten
         scaleInTransition = new ScaleTransition(Duration.seconds(0.5), this);
         scaleInTransition.setFromX(0);
         scaleInTransition.setToX(1);
@@ -48,7 +47,7 @@ public class Card extends ImageView {
         scaleOutTransition.setInterpolator(Interpolator.EASE_BOTH);
 
     }
-
+    //skifter billedet med transtion
     public void flip() {
 
             if (fs) {
@@ -63,4 +62,7 @@ public class Card extends ImageView {
     }
 
 
- }
+    public int getCardId() {
+        return cardId;
+    }
+}
