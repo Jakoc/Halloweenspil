@@ -4,11 +4,15 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Collections;
+
+import static java.util.Collections.shuffle;
 
 public class Mememorygame extends Application {
 
@@ -35,7 +39,8 @@ public class Mememorygame extends Application {
     }
 
     public void buildGame(EventHandler<MouseEvent> eventHandler) {
-        cards = new Card[5][5];
+
+        cards = new Card[4][5];
         int id =1;
         for (int i = 0; i < 4; i++)
             for (int j = 0; j < 5; j++) {

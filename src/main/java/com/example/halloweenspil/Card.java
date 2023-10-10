@@ -6,6 +6,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 
 public class Card extends ImageView {
 
@@ -18,6 +23,9 @@ public class Card extends ImageView {
     private Image front;
     private Image back;
     private boolean fs;
+    private ArrayList<String> kortNavne = new ArrayList<>(Arrays.asList("b1.png", "b2.png","b3.png","b4.png",
+            "b5.png","b6.png","b7.png","b8.png","b9.png", "b10.png"));
+
 
 
     public Card(int nr ,int x, int y, Mememorygame m) {
@@ -28,8 +36,8 @@ public class Card extends ImageView {
         back = new Image(getClass().getResource(filename).toString());
         setImage(front); //ændre setImage til back og fs til false hvis det skal vændes om :)
         fs = true;
-        setX(x*80);
-        setY(y*80);
+        setX(x*100);
+        setY(y*100);
         mg = m;
 
         scaleInTransition = new ScaleTransition(Duration.seconds(0.5), this);
@@ -43,9 +51,9 @@ public class Card extends ImageView {
         scaleOutTransition.setToX(0);
         scaleOutTransition.setInterpolator(Interpolator.EASE_BOTH);
 
+
+
     }
-
-
 
     public void flip() {
         System.out.println("brik " + getX() + "," + getY());
@@ -62,5 +70,11 @@ public class Card extends ImageView {
         }
 
     }
+
+    public void shuffle(){
+        Collections.shuffle(kortNavne);
+    }
+
+
 
 }
