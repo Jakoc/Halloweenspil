@@ -6,11 +6,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 
 public class Card extends ImageView {
 
@@ -23,6 +18,7 @@ public class Card extends ImageView {
     private Image front;
     private Image back;
     private boolean fs;
+
 
 
 
@@ -51,31 +47,20 @@ public class Card extends ImageView {
         scaleOutTransition.setToX(0);
         scaleOutTransition.setInterpolator(Interpolator.EASE_BOTH);
 
-
-
-    }
-
-    public void reset(){
-
     }
 
     public void flip() {
-        System.out.println("brik " + getX() + "," + getY());
 
-        if(fs){
-            setImage(back);
-            fs = false;
-            scaleInTransition.play();
-        }
-        else{
-            setImage(front);
-            fs = true;
-            scaleInTransition.play();
-        }
-
+            if (fs) {
+                setImage(back);
+                fs = false;
+                scaleInTransition.play();
+            } else {
+                setImage(front);
+                fs = true;
+                scaleInTransition.play();
+            }
     }
 
 
-
-
-}
+ }

@@ -1,14 +1,16 @@
 package com.example.halloweenspil;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +20,9 @@ public class Mememorygame extends Application {
 
     private Card[][] cards;
     private Pane root;
+
+    private Card firstCard = null;
+    private Card secondCard = null;
     @Override
     public void start(Stage stage) throws IOException {
         root = new Pane();
@@ -26,7 +31,39 @@ public class Mememorygame extends Application {
             @Override
             public void handle(MouseEvent e) {
                 Card c = (Card) e.getSource();
-                c.flip();
+
+                // Hvis begge kort allerede er vendt, eller det samme kort er klikket igen, skal vi ikke gøre noget.
+                if (firstCard == null || secondCard == null || firstCard == c) {
+                    if (c != firstCard) {
+                        c.flip();
+                        if (firstCard == null) {
+                            firstCard = c;
+                        } else {
+                            secondCard = c;
+
+                            // Tjek om kortene matcher (f.eks. b1 og b11)
+                            if (firstCard.getId() == secondCard.getId() + 10 || secondCard.getId() == firstCard.getId() + 10) {
+                                // Kortene matcher, fjern dem fra scenen.
+                                root.getChildren().remove(firstCard);
+                                root.getChildren().remove(secondCard);
+                                firstCard = null;
+                                secondCard = null;
+                            } else {
+                                // Kortene matcher ikke, flip dem tilbage til bagsiden efter en kort forsinkelse.
+                                Timeline timeline = new Timeline(
+                                        new KeyFrame(Duration.seconds(1), event -> {
+                                            firstCard.flip();
+                                            secondCard.flip();
+                                            firstCard = null;
+                                            secondCard = null;
+                                        })
+                                );
+                                timeline.setCycleCount(1);
+                                timeline.play();
+                            }
+                        }
+                    }
+                }
             }
         };
         Scene scene = new Scene(root);
