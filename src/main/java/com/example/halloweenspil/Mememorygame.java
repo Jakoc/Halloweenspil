@@ -36,7 +36,7 @@ public class Mememorygame extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         root = new Pane();
-        root.setPrefSize(600, 600);
+        root.setPrefSize(600, 450);
         //opstiller antal forsøg tavle oppe i venstre hjørne
         VBox scoreBox = new VBox();
         scoreLabel = new Label("Antal forsøg: 0");
@@ -141,20 +141,21 @@ public class Mememorygame extends Application {
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 5; j++) {
                     cards[i][j] = cardList.get(index++);
-                    cards[i][j].setX(j * 100);
-                    cards[i][j].setY(i * 100);
+                    cards[i][j].setX(j * 100 + 50);
+                    cards[i][j].setY(i * 100 + 50);
                 }
             }
         }
     private void resetGame(){
+        //fjerner vores spil og tilføjer kort+blanding, scoretavle og resetbutton
         score = 0;
         clickCount = 0;
         scoreLabel.setText("Antal forsøg: 0");
-        root.getChildren().clear(); // Fjern alle kort fra scenen
-        buildGame(eventHandler); // Opret spillet igen
-        placeRandomCards(); // Placer kort tilfældigt
+        root.getChildren().clear();
+        buildGame(eventHandler);
+        placeRandomCards();
 
-        // Tilføj scoretavlen og reset-knappen tilbage til root
+
         VBox scoreBox = new VBox();
         scoreBox.getChildren().add(scoreLabel);
         scoreBox.setTranslateX(10);
