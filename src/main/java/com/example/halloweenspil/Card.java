@@ -23,8 +23,7 @@ public class Card extends ImageView {
     private Image front;
     private Image back;
     private boolean fs;
-    private ArrayList<String> kortNavne = new ArrayList<>(Arrays.asList("b1.png", "b2.png","b3.png","b4.png",
-            "b5.png","b6.png","b7.png","b8.png","b9.png", "b10.png"));
+
 
 
 
@@ -32,10 +31,11 @@ public class Card extends ImageView {
         id = nr;
         String filnavn = "b" + id + ".png";
         String filename = "bagside.png";
-        front = new Image(getClass().getResource(filnavn).toString());
-        back = new Image(getClass().getResource(filename).toString());
-        setImage(front); //ændre setImage til back og fs til false hvis det skal vændes om :)
-        fs = true;
+
+        this.front = new Image(getClass().getResource(filnavn).toString());
+        this.back = new Image(getClass().getResource(filename).toString());
+        setImage(back); //ændre setImage til back og fs til false hvis det skal vændes om :)
+        fs = false;
         setX(x*100);
         setY(y*100);
         mg = m;
@@ -55,6 +55,10 @@ public class Card extends ImageView {
 
     }
 
+    public void reset(){
+
+    }
+
     public void flip() {
         System.out.println("brik " + getX() + "," + getY());
 
@@ -71,9 +75,6 @@ public class Card extends ImageView {
 
     }
 
-    public void shuffle(){
-        Collections.shuffle(kortNavne);
-    }
 
 
 
