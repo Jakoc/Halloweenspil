@@ -5,10 +5,9 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -38,6 +37,14 @@ public class Mememorygame extends Application {
     public void start(Stage stage) throws IOException {
         root = new Pane();
         root.setPrefSize(600, 450);
+
+        //opstiller en knappe som hedder regler som viser en alert box
+        Alert rulesAlert = regler();
+        Button rulesButton = new Button("Regler");
+        rulesButton.setOnAction(e -> rulesAlert.showAndWait());
+        rulesButton.setTranslateX(430);
+        rulesButton.setTranslateY(10);
+
         //opstiller antal forsøg tavle oppe i venstre hjørne
         VBox scoreBox = new VBox();
         scoreLabel = new Label("Antal forkerte: 0");
@@ -45,6 +52,7 @@ public class Mememorygame extends Application {
         scoreBox.setTranslateX(10);
         scoreBox.setTranslateY(10);
         root.getChildren().add(scoreBox);
+        root.getChildren().add(rulesButton);
         eventHandler = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
@@ -123,8 +131,8 @@ public class Mememorygame extends Application {
         resetButton.setOnAction(event -> resetGame());
         root.getChildren().add(resetButton);
 
-
     }
+
 
     private boolean areAllCardsRemoved() {
         for (int i = 0; i < 4; i++) {
@@ -172,7 +180,7 @@ public class Mememorygame extends Application {
             }
         }
     private void resetGame(){
-        //fjerner vores spil og tilføjer kort+blanding, scoretavle og resetbutton
+        //fjerner vores spil og tilføjer kort+blanding, scoretavle, resetbutton og rulesButton
         score = 0;
         clickCount = 0;
         scoreLabel.setText("Antal forkerte: 0");
@@ -181,20 +189,42 @@ public class Mememorygame extends Application {
         placeRandomCards();
 
 
+        //bygger vi scoretavle igen
         VBox scoreBox = new VBox();
         scoreBox.getChildren().add(scoreLabel);
         scoreBox.setTranslateX(10);
         scoreBox.setTranslateY(10);
         root.getChildren().add(scoreBox);
 
+        //bygger vores resetbutton igen
         Button resetButton = new Button();
         resetButton.setTranslateX(500);
         resetButton.setTranslateY(10);
         resetButton.setText("Restart");
         resetButton.setOnAction(event -> resetGame());
         root.getChildren().add(resetButton);
-    }
 
+        //bygger vores RulesButton igen
+        Alert rulesAlert = regler();
+        Button rulesButton = new Button("Regler");
+        rulesButton.setOnAction(e -> rulesAlert.showAndWait());
+        rulesButton.setTranslateX(430);
+        rulesButton.setTranslateY(10);
+        root.getChildren().add(rulesButton);
+
+
+    }
+    //her er det som viser hvad regl knappen indenholder
+    private Alert regler() {
+        Alert rulesAlert = new Alert(Alert.AlertType.INFORMATION);
+        rulesAlert.setTitle("Regler");
+        rulesAlert.setHeaderText(null);
+        rulesAlert.setContentText("Du kan gætte forkert 20 gange, ellers genstarter spillet \n"
+                + "Du kal få billedet til at passe med navnet\n"
+                + "Når du har få fjernet alle kort har du vundet\n"
+                + "Løs spillet med så lidt forkerte som muligt");
+        return rulesAlert;
+    }
 
     public static void main(String[] args) {
         launch();
