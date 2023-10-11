@@ -14,7 +14,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,7 +40,7 @@ public class Mememorygame extends Application {
         root.setPrefSize(600, 450);
         //opstiller antal forsøg tavle oppe i venstre hjørne
         VBox scoreBox = new VBox();
-        scoreLabel = new Label("Antal forsøg: 0");
+        scoreLabel = new Label("Antal forkerte: 0");
         scoreBox.getChildren().add(scoreLabel);
         scoreBox.setTranslateX(10);
         scoreBox.setTranslateY(10);
@@ -66,13 +65,25 @@ public class Mememorygame extends Application {
 
                             // fjerner kortene hvis de passer sammen (virker ikke) (alle har ID = null)
                             if (firstCard.getCardId() == secondCard.getCardId() + 10 || secondCard.getCardId() == firstCard.getCardId() + 10) {
-                                root.getChildren().remove(firstCard);
-                                root.getChildren().remove(secondCard);
-                                firstCard = null;
-                                secondCard = null;
+                                Timeline removeTimeline = new Timeline(
+                                        new KeyFrame(Duration.seconds(1), event -> {
+                                            root.getChildren().remove(firstCard);
+                                            root.getChildren().remove(secondCard);
+                                            firstCard = null;
+                                            secondCard = null;
+
+                                            // Tjek om der ikke er flere kort tilbage
+                                            if (areAllCardsRemoved()) {
+                                                // Alle kort er fjernet, opdater scoreteksten
+                                                scoreLabel.setText("Du har vundet! Antal forkerte: " + clickCount);
+                                            }
+                                        })
+                                );
+                                removeTimeline.setCycleCount(1);
+                                removeTimeline.play();
                             } else {
                                 //Vender kortene hvis de ikke passer sammen
-                                Timeline timeline = new Timeline(
+                                Timeline flipBackTimeline = new Timeline(
                                         new KeyFrame(Duration.seconds(1), event -> {
                                             firstCard.flip();
                                             secondCard.flip();
@@ -80,21 +91,21 @@ public class Mememorygame extends Application {
                                             secondCard = null;
                                         })
                                 );
-                                //tæller hver gang man har vendt 2 kort
-                                timeline.setCycleCount(1);
-                                timeline.play();
+                                flipBackTimeline.setCycleCount(1);
+                                flipBackTimeline.play();
                                 if (clickCount < 20) {
                                     clickCount++;
-                                    scoreLabel.setText("Antal forsøg: " + clickCount);}
-                                else{
+                                    scoreLabel.setText("Antal forkerte: " + clickCount);
+                                } else {
                                     resetGame();
-                                    }
                                 }
                             }
                         }
+
+
                     }
                 }
-
+            }
         };
         //bygger vores scene
         Scene scene = new Scene(root);
@@ -113,6 +124,17 @@ public class Mememorygame extends Application {
         root.getChildren().add(resetButton);
 
 
+    }
+
+    private boolean areAllCardsRemoved() {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (cards[i][j].getParent() != null) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
     //sætter kortene ind på scenen
     public void buildGame(EventHandler<MouseEvent> eventHandler) {
@@ -153,7 +175,7 @@ public class Mememorygame extends Application {
         //fjerner vores spil og tilføjer kort+blanding, scoretavle og resetbutton
         score = 0;
         clickCount = 0;
-        scoreLabel.setText("Antal forsøg: 0");
+        scoreLabel.setText("Antal forkerte: 0");
         root.getChildren().clear();
         buildGame(eventHandler);
         placeRandomCards();
