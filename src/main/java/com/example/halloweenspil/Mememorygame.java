@@ -7,6 +7,8 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -48,6 +50,8 @@ public class Mememorygame extends Application {
             @Override
             public void handle(MouseEvent e) {
                 Card c = (Card) e.getSource();
+                int cardId = c.getCardId();
+                System.out.println("Kortets ID er: " + cardId);
 
 
                 // Tjekker om begge kort allerede er vendt, eller det samme kort er klikket igen, skal vi ikke gøre noget.
@@ -61,12 +65,11 @@ public class Mememorygame extends Application {
 
 
                             // fjerner kortene hvis de passer sammen (virker ikke) (alle har ID = null)
-                            if (firstCard.getId() == secondCard.getId() + 10 || secondCard.getCardId() == firstCard.getCardId() + 10) {
+                            if (firstCard.getCardId() == secondCard.getCardId() + 10 || secondCard.getCardId() == firstCard.getCardId() + 10) {
                                 root.getChildren().remove(firstCard);
                                 root.getChildren().remove(secondCard);
                                 firstCard = null;
                                 secondCard = null;
-
                             } else {
                                 //Vender kortene hvis de ikke passer sammen
                                 Timeline timeline = new Timeline(
@@ -117,11 +120,11 @@ public class Mememorygame extends Application {
         int id = 1;
         for (int i = 0; i < 4; i++)
             for (int j = 0; j < 5; j++) {
-                if (id <= 20) {
-                    cards[i][j] = new Card(id++, i, j, this);
-                    root.getChildren().add(cards[i][j]);
-                    cards[i][j].addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
-                }
+                if (id <= 20)
+                cards[i][j] = new Card(id++, i, j, this);
+                root.getChildren().add(cards[i][j]);
+                cards[i][j].addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
+
             }
     }
     //placere vores kort tilfæligt

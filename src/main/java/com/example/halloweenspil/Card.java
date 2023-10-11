@@ -14,6 +14,7 @@ public class Card extends ImageView {
 
     private Mememorygame mg;
     private int cardId;
+    private static int nextCardId = 1;
 
     private Image front;
     private Image back;
@@ -26,6 +27,8 @@ public class Card extends ImageView {
     public Card(int nr ,int x, int y, Mememorygame m) {
         String filnavn = "b" + nr + ".png";
         String filename = "bagside.png";
+        cardId = nextCardId;
+        nextCardId++;
         //giver forsiden og bagsiden navn
         this.front = new Image(getClass().getResource(filnavn).toString());
         this.back = new Image(getClass().getResource(filename).toString());
