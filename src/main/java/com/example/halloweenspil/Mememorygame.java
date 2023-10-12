@@ -44,7 +44,7 @@ public class Mememorygame extends Application {
         rulesButton.setOnAction(e -> rulesAlert.showAndWait());
         rulesButton.setTranslateX(430);
         rulesButton.setTranslateY(10);
-
+        root.getChildren().add(rulesButton);
         //opstiller antal forsøg tavle oppe i venstre hjørne
         VBox scoreBox = new VBox();
         scoreLabel = new Label("Antal forkerte: 0");
@@ -52,12 +52,13 @@ public class Mememorygame extends Application {
         scoreBox.setTranslateX(10);
         scoreBox.setTranslateY(10);
         root.getChildren().add(scoreBox);
-        root.getChildren().add(rulesButton);
+
         eventHandler = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
                 Card c = (Card) e.getSource();
                 int cardId = c.getCardId();
+                //viser id'et på kortene i terminalen
                 System.out.println("Kortets ID er: " + cardId);
 
 
@@ -71,7 +72,7 @@ public class Mememorygame extends Application {
                             secondCard = c;
 
 
-                            // fjerner kortene hvis de passer sammen (virker ikke) (alle har ID = null)
+                            // fjerner kortene hvis de passer sammen
                             if (firstCard.getCardId() == secondCard.getCardId() + 10 || secondCard.getCardId() == firstCard.getCardId() + 10) {
                                 Timeline removeTimeline = new Timeline(
                                         new KeyFrame(Duration.seconds(1), event -> {
@@ -115,7 +116,7 @@ public class Mememorygame extends Application {
                 }
             }
         };
-        //bygger vores scene
+        //bygger vores scene, samt reset knap
         Scene scene = new Scene(root);
 
         stage.setTitle("Halloweenspil");
@@ -133,7 +134,7 @@ public class Mememorygame extends Application {
 
     }
 
-
+    //tjekker om alle kort er fjernet
     private boolean areAllCardsRemoved() {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 5; j++) {
